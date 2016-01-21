@@ -1,0 +1,19 @@
+<IfModule deflate_module>
+    # Enable compression for the following file types.
+    AddOutputFilterByType            \
+     DEFLATE                         \
+      application/javascript         \
+      text/css                       \
+      text/html                      \
+      text/javascript                \
+      text/plain                     \
+      text/xml
+</IfModule>
+
+# BEGIN Expire headers
+<IfModule mod_expires.c>
+	ExpiresByType image/jpg "access plus 2592000 seconds"
+ 	ExpiresByType image/jpeg "access plus 2592000 seconds"
+ 	ExpiresByType image/png "access plus 2592000 seconds"
+</IfModule>
+# END Expire headers
