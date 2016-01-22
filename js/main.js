@@ -1,5 +1,5 @@
 (function ($) {
-
+	
 	$(function() {
 		$('#search').focus();
 		count = 0;
@@ -30,6 +30,12 @@
 
 	$(function() {
 		$('#list').on('dblclick', 'li', function(){
+			var id_a_suppr = $(this).attr('id');
+			$(this).fadeOut(function(){
+				$(this).remove();
+			});
+		});
+		$('#list').on('doubletap', 'li', function(){
 			var id_a_suppr = $(this).attr('id');
 			$(this).fadeOut(function(){
 				$(this).remove();

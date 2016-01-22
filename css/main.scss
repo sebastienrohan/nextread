@@ -95,7 +95,7 @@ form {
 		background: $btn-hover;
 	}
 	&:active {
-		background: $btn-hover;
+		background: $btn-hover !important;
 	}
 	&:focus {
 		background: $btn-hover;
@@ -111,6 +111,10 @@ form {
 	body {
 		font-size: 14px;
 	}
+	#container {
+   		overflow-x: hidden;
+    	width: 100%;
+  	}
 	#list, form {
  		margin-top: 50px;
  	}

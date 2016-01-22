@@ -72,7 +72,7 @@ form {
   .btn:hover {
     background: #467B7F; }
   .btn:active {
-    background: #467B7F; }
+    background: #467B7F !important; }
   .btn:focus {
     background: #467B7F; }
 
@@ -81,6 +81,10 @@ form {
 @media screen and (max-width: 767px) {
   body {
     font-size: 14px; }
+
+  #container {
+    overflow-x: hidden;
+    width: 100%; }
 
   #list, form {
     margin-top: 50px; }
