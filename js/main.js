@@ -1,10 +1,9 @@
 (function ($) {
 
+
+
 	// init
 	$('#search').focus();
-	$('ul').sortable({
-		cursor: "move"
-	});
 	
 	// load booklist from sessionStorage
 	var book_list_json = sessionStorage.getItem('booklist');
@@ -81,6 +80,7 @@
 
 				$(this).remove();
 				count--;
+				sessionStorage.setItem('count', count);
 			});
 			
 			// delete from sessionStorage
@@ -100,15 +100,35 @@
 			// write to sessionStorage
 			var book_list_json = JSON.stringify(book_list);
 			sessionStorage.setItem('booklist',book_list_json);
-
-
+			sessionStorage.setItem('count', count);
 		});
+
+		// mobile & tablet
 		$('#list').on('doubletap', 'li', function(){
 			var id_to_del = $(this).attr('id');
 			$(this).fadeOut(function(){
 				$(this).remove();
 			});
 		});
+	});
+
+	// move book
+	$('ul').sortable({
+		cursor: "move",
+		stop: function(event, ui){
+			
+	        // update list order numbers in the HTML & sessionStorage
+	        var book_nbr = $('li').length;
+	        $('li').each(function(index){
+	        	book_li = this.innerHTML;
+	        	if (index < book_nbr) {
+	        		this.id = index;
+	        		book_list[index] = book_li;
+	        	}
+	        });
+	        var book_list_json = JSON.stringify(book_list);
+			sessionStorage.setItem('booklist',book_list_json);
+        }
 	});
 
 })(jQuery);
