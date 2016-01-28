@@ -37,17 +37,24 @@ body {
 .small {
   font-size: 12px; }
 
+.tutorial {
+  font-size: 12px;
+  font-style: italic;
+  margin-top: 15px;
+  font-family: verdana, sans-serif;
+  color: #666; }
+
 /* OBJECTS */
 /* Wrappers */
 form {
-  margin-top: 100px; }
+  margin-top: 80px; }
 
 #search {
   border: 2px solid #5F9A9F;
   border-radius: 3px; }
 
 #list {
-  margin-top: 100px;
+  margin-top: 80px;
   padding-left: 0; }
   #list li {
     border: 2px solid #774F38;
@@ -79,6 +86,9 @@ form {
 /* RESPONSIVE */
 /* Sizes */
 @media screen and (max-width: 767px) {
+  .tutorial {
+    font-size: 8px; }
+
   body {
     font-size: 14px; }
 

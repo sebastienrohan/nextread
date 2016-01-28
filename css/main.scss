@@ -48,13 +48,21 @@ body {
 	font-size: 12px;
 }
 
+.tutorial {
+	font-size: 12px;
+	font-style: italic;
+	margin-top: 15px;
+	font-family: verdana, sans-serif;
+	color: #666;
+}
+
 
  /* OBJECTS */
 
  /* Wrappers */
 
 form {
-	margin-top: 100px;
+	margin-top: 80px;
 }
 
 #search {
@@ -62,23 +70,23 @@ form {
  	border-radius: 3px;
 }
 
- #list {
- 	margin-top: 100px;
- 	padding-left: 0;
- 	li {
- 		border: 2px solid $book-border;
- 		border-radius: 3px;
- 		list-style-type: none;
- 		padding: 10px;
- 		background: $book-bg;
- 		color: white;
- 		margin-bottom: 10px;
- 		font-family: Lora, Arial, sans-serif;
- 		&:hover {
- 			cursor: move;
- 			}
- 		}
-	}
+#list {
+	margin-top: 80px;
+	padding-left: 0;
+	li {
+		border: 2px solid $book-border;
+		border-radius: 3px;
+		list-style-type: none;
+		padding: 10px;
+		background: $book-bg;
+		color: white;
+		margin-bottom: 10px;
+		font-family: Lora, Arial, sans-serif;
+		&:hover {
+			cursor: move;
+			}
+		}
+}
 
 
 /* COMPONENTS */
@@ -108,6 +116,9 @@ form {
 /* Sizes */
 
 @media screen and (max-width: 767px) {
+	.tutorial {
+ 		font-size: 8px;
+ 	}
 	body {
 		font-size: 14px;
 	}
