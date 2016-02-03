@@ -74,8 +74,7 @@
 			var title = $('#search').val();
 
 			function addBook(rating){
-		console.log('rating addBook: ' + rating);
-				var book = $('<li id=\"' + count + '\">' + title + '<div class=\'pull-right\'>' + rating + '</div></li>');
+				var book = $('<li id=\"' + count + '\">' + title + rating + '</li>');
 				if (title.length > 40) {
 					book.addClass('small');
 				}
@@ -103,12 +102,12 @@
 					dataType: 'json',
 					success: function(json){
 						if (json.book.rating != undefined) {
-							var rating = json.book.rating + ' %';
+							var icon = '<img src=' + json.book.to_read_or_not + '>';
+							var rating = '<a href=' + json.book.detail_link + ' target=\'_blank\'><div class=\'pull-right\'>' + json.book.rating + ' % ' + icon; + '</div></a>'
 						}
 						else {
-							var rating = '? %';
+							var rating = '<div class=\'pull-right\'>? %</div>';
 						}
-						console.log('rating ajax: ' + rating);
 						addBook(rating);
 						},
 					error: function(json){
