@@ -1,5 +1,7 @@
 (function ($) {
 
+
+
 	// INIT
 	$('#search').focus();
 	
@@ -13,7 +15,7 @@
 		// populate ul #list with stored booklist
 		var retrieved_list = '';
 		for (var key in book_list) {
-			retrieved_list += '<li id=\"' + key + '\">' + book_list[key] + '</li>';
+			retrieved_list += '<li id=\"' + key + '\">' + book_list[key].title + '<div class=\'pull-right\'>' + book_list[key].rating + '</div></li>';
 		}
 		$('#list').html(retrieved_list);
 	}
@@ -23,6 +25,12 @@
 		var book_list = {};
 	}
 
+	// micro-plugin to retrieve only text in a node
+
+	$.fn.textOnly = function(){
+	  return this.clone().children().remove().end().text();
+	};
+
 	// listen for book movement
 	$('ul').sortable({
 		cursor: 'move',
@@ -30,10 +38,15 @@
 	        // update list order numbers in the HTML & sessionStorage
 	        var book_nbr = $('li').length;
 	        $('li').each(function(index){
-	        	book_li = this.innerHTML;
+
+	        	var book_li = this;
+	        	book_title = $(book_li).textOnly();
+	        	book_rating = $(book_li).children().text();
+
 	        	if (index < book_nbr) {
 	        		this.id = index;
-	        		book_list[index] = book_li;
+	        		book_list[index].title = book_title;
+	        		book_list[index].rating = book_rating;	        		
 	        	}
 	        });
 	        var book_list_json = JSON.stringify(book_list);
@@ -56,11 +69,13 @@
 	// ADD BOOK
 	$(function() {
 
-		function add() {
+		function add(){
+			var api_key = '6ad6214b9afeca197fbea7b1d6d52758b463689f';
 			var title = $('#search').val();
-			if (title.length != 0) {
-				count++;
-				var book = $('<li id=\"' + count + '\">' + title + '</li>');
+
+			function addBook(rating){
+		console.log('rating addBook: ' + rating);
+				var book = $('<li id=\"' + count + '\">' + title + '<div class=\'pull-right\'>' + rating + '</div></li>');
 				if (title.length > 40) {
 					book.addClass('small');
 				}
@@ -71,9 +86,36 @@
 				
 				// sessionStorage
 				sessionStorage.setItem('count', count);
-				book_list[count] = title;
+				var new_book = {};
+				new_book.title = title;
+				new_book.rating = rating;
+				book_list[count] = new_book;
 				var book_list_json = JSON.stringify(book_list);
 				sessionStorage.setItem('booklist',book_list_json);
+			}
+
+			if (title.length != 0) {
+				count++;
+				
+				// API call to idreambooks
+				$.ajax({
+					url: 'http://idreambooks.com/api/books/reviews.json?q=' + title + '&key=' + api_key,
+					dataType: 'json',
+					success: function(json){
+						if (json.book.rating != undefined) {
+							var rating = json.book.rating + ' %';
+						}
+						else {
+							var rating = '? %';
+						}
+						console.log('rating ajax: ' + rating);
+						addBook(rating);
+						},
+					error: function(json){
+						var rating = '? %';
+						addBook(rating);
+					}
+				});
 			}
 			else {
 				$('#search').focus();
