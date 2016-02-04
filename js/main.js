@@ -15,7 +15,8 @@
 		// populate ul #list with stored booklist
 		var retrieved_list = '';
 		for (var key in book_list) {
-			retrieved_list += '<li id=\"' + key + '\">' + book_list[key].title + '<div class=\'pull-right\'>' + book_list[key].rating + '</div></li>';
+			var regen_book = '<li id=\'' + count + '\'>' + book_list[key].title + '<a href=\'' + book_list[key].link  + '\' target=\'_blank\'><div class=\'pull-right\'>' + book_list[key].rating + ' % <img src=\'' + book_list[key].icon + '\'></div></a></li>';
+			retrieved_list += regen_book;
 		}
 		$('#list').html(retrieved_list);
 	}
@@ -26,7 +27,6 @@
 	}
 
 	// micro-plugin to retrieve only text in a node
-
 	$.fn.textOnly = function(){
 	  return this.clone().children().remove().end().text();
 	};
@@ -41,12 +41,18 @@
 
 	        	var book_li = this;
 	        	book_title = $(book_li).textOnly();
-	        	book_rating = $(book_li).children().text();
+	        	book_rating = parseInt($(book_li).children().text());
+	        	book_link = $('a', book_li).attr('href');
+	        	book_icon = $('img', book_li).attr('src');
 
 	        	if (index < book_nbr) {
+	        		// HTML
 	        		this.id = index;
+	        		// sessionStorage
 	        		book_list[index].title = book_title;
-	        		book_list[index].rating = book_rating;	        		
+	        		book_list[index].rating = book_rating;
+	        		book_list[index].link = book_link;
+	        		book_list[index].icon = book_icon;
 	        	}
 	        });
 	        var book_list_json = JSON.stringify(book_list);
@@ -73,8 +79,8 @@
 			var api_key = '6ad6214b9afeca197fbea7b1d6d52758b463689f';
 			var title = $('#search').val();
 
-			function addBook(rating){
-				var book = $('<li id=\"' + count + '\">' + title + rating + '</li>');
+			function addBook(link, rating, icon){
+				var book = $('<li id=\'' + count + '\'>' + title + '<a href=\'' + link  + '\' target=\'_blank\'><div class=\'pull-right\'>' + rating + ' % <img src=\'' + icon + '\'></div></a></li>');
 				if (title.length > 40) {
 					book.addClass('small');
 				}
@@ -88,6 +94,8 @@
 				var new_book = {};
 				new_book.title = title;
 				new_book.rating = rating;
+				new_book.link = link;
+				new_book.icon = icon;
 				book_list[count] = new_book;
 				var book_list_json = JSON.stringify(book_list);
 				sessionStorage.setItem('booklist',book_list_json);
@@ -102,17 +110,18 @@
 					dataType: 'json',
 					success: function(json){
 						if (json.book.rating != undefined) {
-							var icon = '<img src=' + json.book.to_read_or_not + '>';
-							var rating = '<a href=' + json.book.detail_link + ' target=\'_blank\'><div class=\'pull-right\'>' + json.book.rating + ' % ' + icon; + '</div></a>'
+							var icon = json.book.to_read_or_not;
+							var link = json.book.detail_link;
+							var rating = json.book.rating;
 						}
 						else {
-							var rating = '<div class=\'pull-right\'>? %</div>';
+							var rating = '?';
 						}
-						addBook(rating);
+						addBook(link,rating, icon);
 						},
 					error: function(json){
-						var rating = '? %';
-						addBook(rating);
+						var rating = '?';
+						addBook(link,rating, icon);
 					}
 				});
 			}
