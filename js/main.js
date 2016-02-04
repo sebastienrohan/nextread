@@ -104,7 +104,16 @@
 			var api_key = '6ad6214b9afeca197fbea7b1d6d52758b463689f';
 			var title = $('#search').val();
 			// Change each first letter to uppercase
-
+			function toProperCase(title) {
+				var words = title.split(' ');
+				var results = [];
+				for (var i=0; i < words.length; i++) {
+				    var letter = words[i].charAt(0).toUpperCase();
+				    results.push(letter + words[i].slice(1));
+				}
+				return title = results.join(' ');
+			}
+			title = toProperCase(title);
 
 			function addBook(link, rating, icon){
 				if (icon == undefined){
