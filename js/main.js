@@ -1,28 +1,29 @@
 (function ($){
 
+
+
 	// INIT
 	$('#search').focus();
-	
-	// load booklist from sessionStorage
-	var book_list_json = sessionStorage.getItem('booklist');
+
+	// load booklist from localStorage
+	var book_list_json = localStorage.getItem('booklist');
 	var book_list = JSON.parse(book_list_json);
 	if (book_list != null){
 		// retrieve count
-		var count = sessionStorage.getItem('count');
-
+		var count = localStorage.getItem('count');
 		// populate ul #list with stored booklist
 		var retrieved_list = '';
 		for (var key in book_list){
-			if (book_list[key].link == undefined ){
+			if (book_list[key].link == undefined){
 				book_list[key].link = '';
 			}
-			if (book_list[key].icon == undefined ){
+			if (book_list[key].icon == undefined){
 				book_list[key].icon = '';
 			}
-			if (book_list[key].a == undefined ){
+			if (book_list[key].a == undefined){
 				book_list[key].a = '';
 			}
-			var regen_book = '<li id=\'' + count + '\'>' + book_list[key].title + book_list[key].link + '<div class=\'pull-right\'>' + book_list[key].rating + ' % ' + book_list[key].icon + '</div>' + book_list[key].a + '</li>';
+			var regen_book = '<li id=\'' + key + '\'>' + book_list[key].title + book_list[key].link + '<div class=\'pull-right\'>' + book_list[key].rating + ' % ' + book_list[key].icon + '</div>' + book_list[key].a + '</li>';
 			retrieved_list += regen_book;
 		}
 		$('#list').html(retrieved_list);
@@ -42,7 +43,7 @@
 	$('ul').sortable({
 		cursor: 'move',
 		stop: function(event, ui){	
-	        // update list order numbers in the HTML & sessionStorage
+	        // update list order numbers in the HTML & localStorage
 	        var book_nbr = $('li').length;
 	        $('li').each(function(index){
 
@@ -72,7 +73,7 @@
 	        	if (index < book_nbr){
 	        		// HTML
 	        		this.id = index;
-	        		// sessionStorage
+	        		// localStorage
 	        		book_list[index].title = book_title;
 	        		book_list[index].rating = book_rating;
 	        		book_list[index].link = book_link;
@@ -81,19 +82,8 @@
 	        	}
 	        });
 	        var book_list_json = JSON.stringify(book_list);
-			sessionStorage.setItem('booklist',book_list_json);
+			localStorage.setItem('booklist',book_list_json);
         }
-	});
-
-	// listen for deleteBook()
-	$('#list').on('dblclick', 'li', function(){
-		var self = this;
-		deleteBook(self);
-	});
-	// listen for deleteBook() on mobile
-	$('#list').on('doubletap', 'li', function(){
-		var self = this;
-		deleteBook(self);
 	});
 
 
@@ -139,8 +129,8 @@
 				book.fadeIn();
 				$('#search').val('').focus();
 				
-				// sessionStorage
-				sessionStorage.setItem('count', count);
+				// localStorage
+				localStorage.setItem('count', count);
 				var new_book = {};
 				new_book.title = title;
 				new_book.rating = rating;
@@ -149,7 +139,7 @@
 				new_book.icon = icon;
 				book_list[count] = new_book;
 				var book_list_json = JSON.stringify(book_list);
-				sessionStorage.setItem('booklist',book_list_json);
+				localStorage.setItem('booklist',book_list_json);
 			}
 
 			if (title.length != 0){
@@ -213,10 +203,10 @@
 
 			$(book_suppr).remove();
 			count--;
-			sessionStorage.setItem('count', count);
+			localStorage.setItem('count', count);
 		});
 		
-		// delete from sessionStorage
+		// delete from localStorage
 		var book_to_del = String(id_to_del);
 		delete book_list[book_to_del];
 
@@ -230,10 +220,75 @@
 			}
 		});
 
-		// write to sessionStorage
+		// write to localStorage
 		var book_list_json = JSON.stringify(book_list);
-		sessionStorage.setItem('booklist',book_list_json);
-		sessionStorage.setItem('count', count);
+		localStorage.setItem('booklist',book_list_json);
+		localStorage.setItem('count', count);
 	}
+	// listen for deleteBook()
+	$('#list').on('dblclick', 'li', function(){
+		var self = this;
+		deleteBook(self);
+	});
+	// listen for deleteBook() on mobile
+	$('#list').on('doubletap', 'li', function(){
+		var self = this;
+		deleteBook(self);
+	});
+
+
+	// SORT BOOKS
+	$('#sort').click(function(){
+		// sort books by rating inside the stored object
+		// create array
+		var sortable = [];
+		for (var key in book_list){
+      		sortable.push(book_list[key]);
+		}
+		// sort the array
+		sortable.sort(function(a, b){
+			if (a.rating == '?') {
+				a.rating = 0;
+			}
+			if (b.rating == '?') {
+				b.rating = 0;
+			}
+			return parseInt(b.rating) - parseInt(a.rating);
+		});
+		// re-change the 0 ratings to '?'
+		for (var key in sortable){
+      		if (sortable[key].rating == 0){
+      			sortable[key].rating = '?';
+      		}
+		}
+		// recreate the object
+		function toObject(arr) {
+  			var rv = {};
+  			for (var i = 0; i < arr.length; ++i)
+    			rv[i] = arr[i];
+  			return rv;
+		}	
+		book_list = toObject(sortable);
+		// re-populate ul #list with stored booklist
+		var retrieved_list = '';
+		for (var key in book_list){
+			if (book_list[key].link == undefined){
+				book_list[key].link = '';
+			}
+			if (book_list[key].icon == undefined){
+				book_list[key].icon = '';
+			}
+			if (book_list[key].a == undefined){
+				book_list[key].a = '';
+			}
+			var regen_book = '<li id=\'' + key + '\'>' + book_list[key].title + book_list[key].link + '<div class=\'pull-right\'>' + book_list[key].rating + ' % ' + book_list[key].icon + '</div>' + book_list[key].a + '</li>';
+			retrieved_list += regen_book;
+		}
+		$('#list').html(retrieved_list);
+
+		// write to localStorage
+		var book_list_json = JSON.stringify(book_list);
+		localStorage.setItem('booklist',book_list_json);
+	});
 
 })(jQuery);

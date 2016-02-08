@@ -70,6 +70,10 @@ a {
 	color: #666;
 }
 
+.pull-right {
+	font-family: verdana, sans-serif;
+	font-size: 14px;
+}
 
  /* OBJECTS */
 
@@ -111,8 +115,9 @@ form {
 	margin-left: 5px;
 	background: $btn;
 	border: $btn;
-	font-size: 24px;
+	font-size: 14px;
 	font-weight: bold;
+	padding: 10px;
 	&:hover {
 		background: $btn-hover;
 	}
@@ -124,10 +129,18 @@ form {
 	}
 }
 
-
 /* RESPONSIVE */
 
 /* Sizes */
+
+@media screen and (max-width: 1450px) {
+	.btn {
+		font-size: 12px;
+	}
+	.tutorial {
+	font-size: 10px;
+	}
+}
 
 @media screen and (max-width: 767px) {
 	.tutorial {

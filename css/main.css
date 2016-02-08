@@ -54,6 +54,10 @@ a {
   font-family: verdana, sans-serif;
   color: #666; }
 
+.pull-right {
+  font-family: verdana, sans-serif;
+  font-size: 14px; }
+
 /* OBJECTS */
 /* Wrappers */
 form {
@@ -84,8 +88,9 @@ form {
   margin-left: 5px;
   background: #5F9A9F;
   border: #5F9A9F;
-  font-size: 24px;
-  font-weight: bold; }
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px; }
   .btn:hover {
     background: #467B7F; }
   .btn:active {
@@ -95,6 +100,12 @@ form {
 
 /* RESPONSIVE */
 /* Sizes */
+@media screen and (max-width: 1450px) {
+  .btn {
+    font-size: 12px; }
+
+  .tutorial {
+    font-size: 10px; } }
 @media screen and (max-width: 767px) {
   .tutorial {
     font-size: 8px; }
