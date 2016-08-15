@@ -12,11 +12,9 @@
 <link type="text/plain" rel="author" href="humans.txt">
 
 <link rel="icon" href="favicon.ico" type="image/x-icon">
-<link href='https://fonts.googleapis.com/css?family=Lora:400' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="css/normalize.css">
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+<link href='https://fonts.googleapis.com/css?family=Roboto:400|Raleway:400' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
 <link rel="stylesheet" href="css/main.css">
 
 </head>
@@ -29,8 +27,8 @@
     <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3  col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
       <form class="form-inline">
           <input type="text" placeholder="Next book" id="search" name="book" class="form-control input-lg">
-          <input type="button" value="Add" id="add" name="add" class="btn btn-success">
-          <input type="button" value="Sort" id="sort" class="btn btn-success">
+          <input type="button" value="Add book" id="add" name="add" class="btn">
+          <input type="button" value="Sort by rating" id="sort" class="btn">
       </form>
 
       <div class="tutorial">(Drag a book to change its order in the list, double-click to delete it)</div>
@@ -42,13 +40,18 @@
 
 </div>
 
+<footer>
+  <div class="text-center">
+    Design: <a href="http://www.sebastienrohan.com" target="_blank">Sébastien Rohan</a>
+  </div>
+</footer>
+
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha256-KXn5puMvxCw+dAYznun+drMdG1IFl3agK0p/pqT9KAo= sha512-2e8qq0ETcfWRI4HJBzQiA3UoyFk6tbNyG+qSaIBZLyW9Xf3sWZHN/lxe9fTh1U45DpPf07yj94KsUHHWe4Yk1A==" crossorigin="anonymous"></script>
   <script src="js/jquery.ui.touch-punch.min.js"></script>
   <script src="js/jquery.doubletap.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/main.min.js"></script>
 
 </body>
 </html>
